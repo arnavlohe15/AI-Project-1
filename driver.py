@@ -43,7 +43,7 @@ def main():
     pygame.init()
 
     # Set the width and height of the screen [width, height]
-    size = (700, 500)
+    size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("Maze Runner")
