@@ -1,8 +1,7 @@
 import numpy as np
 
 class node():
-
-    def __init__(self, parent=None, location=None):
+    def __init__(self, parent, location):
         self.parent = parent
         self.location = location
 
