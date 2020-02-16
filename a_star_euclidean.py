@@ -10,17 +10,21 @@ class node():
         self.f = float(0)
 
 #returns euclidean distance between two nodes
-#takes the locations of two nodes as arguments
+#takes the locations/tuples of two nodes as arguments
+#works properly
 def euclidean_distance(node_1, node_2):
     return float((((node_2[1] - node_1[1])**2) + ((node_2[0] - node_1[0])**2))**0.5)
 
-#to make extracting the value at a given location in the grid easier
-#takes the grid and two integers as arguments
-def get_value(grid, a, b):
-    return grid[a][b]
+#to make extracting the value at a given location in the maze easier
+#takes the maze and two integers as arguments
+def get_value(maze, a, b):
+    return maze[a][b]
 
-#Euclidean A* Search, takes the grid and dimension as arguments
-def a_star_euclidean(grid, dim):
+def out_of_bounds(a, b, dim):
+    return (a < 0 or a >= dim) or (b < 0 or b >= dim)
+
+#Euclidean A* Search, takes the maze and dimension as arguments
+def a_star_euclidean(maze, dim):
     #initializing start node and end node
     start = node(None, (0,0))
     end = node(None, (dim-1, dim-1))
@@ -42,7 +46,7 @@ def a_star_euclidean(grid, dim):
                 currentNode = item
                 currentNode_index = index
 
-        print(currentNode.location)
+        #print(currentNode.location)
 
         row = currentNode.location[0]
         column = currentNode.location[1]
@@ -52,7 +56,7 @@ def a_star_euclidean(grid, dim):
         closed_list.append(currentNode)
 
         #in case goal node is already reached
-        if currentNode == end:
+        if currentNode.location == end.location:
             path = []
             current = currentNode
             while current is not None:
@@ -61,56 +65,51 @@ def a_star_euclidean(grid, dim):
             #return path[::-1] #returning the path from start to end
             return path
 
-        #generating neighbors
-        neighbor_locations = [(row+1, column), (row-1, column), (row, column+1), (row, column-1)]
-        neighbor_nodes = [node(currentNode, location) for location in neighbor_locations]
+        #generating childs
+        child_locations = [(row+1, column), (row-1, column), (row, column+1), (row, column-1)]
+        #print(child_locations)
+        child_nodes = [node(currentNode, location) for location in child_locations]
+        #print(child_nodes)
 
-        for neighbor in neighbor_nodes:
+        for child in child_nodes:
+            #declaring row and column variables for child nodes
+            child_row = int(child.location[0])
+            child_column = int(child.location[1])
 
+            if not out_of_bounds(child_row, child_column, dim):
 
-            #declaring row and column variables for neighbor nodes
-            neighbor_row = int(neighbor.location[0])
-            neighbor_column = int(neighbor.location[1])
-            if (neighbor_row < dim and neighbor_row >= 0) and (neighbor_column < dim and neighbor_column >= 0): #to make sure that indices within range are being enqueued
-                continue
+                # Child is on the closed list
+                if child in open_list:
+                    continue
+
+                #computing g(n), h(n), f(n)
+                child.g = float(currentNode.g + 1)
+                child.h = float(euclidean_distance(child.location, end.location))
+                child.f = float(child.g + child.h)
+
+                #child is in open list
+                if child in closed_list:
+                    continue
+
+                open_list.append(child)
+
             else:
-                neighbor_nodes.remove(neighbor)
+                continue
 
-            # Child is on the closed list
-            for closed_child in closed_list:
-                if neighbor == closed_child:
-                    continue
-
-
-            #computing g(n), h(n), f(n)
-            neighbor.g = float(currentNode.g + 1)
-            neighbor.h = float(euclidean_distance(neighbor.location, end.location))
-            neighbor.f = float(neighbor.g + neighbor.h)
-
-            #child is in open list
-            for open_node in open_list:
-                if neighbor == open_node and neighbor.g > open_node.g:
-                    continue
-
-            """if (neighbor_row < dim and neighbor_row >= 0) and (neighbor_column < dim and neighbor_column >= 0): #to make sure that indices within range are being enqueued
-                if (neighbor in closed_list) and (get_value(grid,neighbor_row,neighbor_column) == 0): #if child has not been visited already and is valid
-                    continue
-                if (neighbor in open_list) and (get_value(grid,neighbor_row,neighbor_column) == 0):
-                    open_list.append(neigbor)
-                    continue"""
-
-            open_list.append(neighbor)
 
 def main():
-    grid = []
+    maze = []
     dim = int(input("Enter the dimension of the game: "))
-    print(type(dim))
+    print(dim)
     for row in range(dim):
-        grid.append([])
+        maze.append([])
         for column in range(dim):
-            grid[row].append(int(np.random.binomial(1, 0.3, 1)))
-            grid[0][0] = 0
-    print(grid)
-    print(a_star_euclidean(grid,dim))
+            maze[row].append(int(np.random.binomial(1, 0.3, 1)))
+    maze[0][0] = 0
+    maze[dim-1][dim-1] = 0
+    print(maze)
+    print(a_star_euclidean(maze,dim))
+
+    #print(euclidean_distance((1,1), (2,2)))
 
 main()
