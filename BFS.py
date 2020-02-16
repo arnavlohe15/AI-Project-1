@@ -17,9 +17,11 @@ def bfs(grid, dim):
     Q.append((0,0))
     visited.append((0,0))
 
+    #boolean flag to keep track of whether the end node has been reached
     path_reached = False
 
-    while len(Q) != 0:
+    #beginning loop
+    while len(Q) > 0:
 
         #current location
         v = Q[0]
