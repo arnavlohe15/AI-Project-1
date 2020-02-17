@@ -23,7 +23,7 @@ class Agent:
                 print("Success!")
                 print("Current pos: ", curr_pos)
                 print("Path: ", self.closed)
-                return
+                return self.closed
             else:
                 for child in self.get_children(curr_pos):
                     out_of_bounds = child[0] < 0 or \
@@ -36,7 +36,7 @@ class Agent:
                             self.fringe.append(child)
                 self.closed.append(curr_pos)
         print("No solution")
-        return
+        return []
 
     def bfs(self):
         # fringe is stack
@@ -46,7 +46,7 @@ class Agent:
                 print("Success!")
                 print("Current pos: ", curr_pos)
                 print("Path: ", self.closed)
-                return
+                return self.closed
             else:
                 for child in self.get_children(curr_pos):
                     out_of_bounds = child[0] < 0 or \
@@ -59,7 +59,7 @@ class Agent:
                             self.fringe.append(child)
                 self.closed.append(curr_pos)
         print("No solution")
-        return
+        return []
 
     def a_star_euclidean(self):
         print('a_star_euclidean')
