@@ -46,14 +46,14 @@ def a_star_euclidean(maze, dim):
                 currentNode = item
                 currentNode_index = index
 
-        #print(currentNode.location)
+        #(currentNode.location)
 
         row = currentNode.location[0]
         column = currentNode.location[1]
 
         #updating open list and closed list
         open_list.pop(currentNode_index)
-        closed_list.append(currentNode)
+        #closed_list.append(currentNode)
 
         #in case goal node is already reached
         if currentNode.location == end.location:
@@ -63,7 +63,10 @@ def a_star_euclidean(maze, dim):
                 path.append(current.location)
                 current = current.parent
             #return path[::-1] #returning the path from start to end
+            path.reverse()
             return path
+        else:
+            closed_list.append(currentNode)
 
         #generating childs
         child_locations = [(row+1, column), (row-1, column), (row, column+1), (row, column-1)]
@@ -91,7 +94,10 @@ def a_star_euclidean(maze, dim):
                 if child in closed_list:
                     continue
 
-                open_list.append(child)
+                if get_value(maze, child_row, child_column) == 0:
+                    open_list.append(child)
+                else:
+                    continue
 
             else:
                 continue
@@ -108,6 +114,7 @@ def main():
     maze[0][0] = 0
     maze[dim-1][dim-1] = 0
     print(maze)
+    print("----------")
     print(a_star_euclidean(maze,dim))
 
     #print(euclidean_distance((1,1), (2,2)))
