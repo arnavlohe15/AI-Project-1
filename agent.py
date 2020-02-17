@@ -368,12 +368,12 @@ class Agent:
             row_S = current_S.row
             column_S = current_S.column
 
-            print("From start direction: ", (row_S, column_S))
+            #print("From start direction: ", (row_S, column_S))
 
             row_G = current_G.row
             column_G = current_G.column
 
-            print("From goal direction: ", (row_G, column_G))
+            #print("From goal direction: ", (row_G, column_G))
 
             #some mechanics
             if len(Q_start) > 0:
@@ -382,7 +382,7 @@ class Agent:
                 Q_goal.pop(0)
 
             #in case the current node from starting is in the goal Queue
-            if (current_S in Q_goal):
+            """if (current_S in Q_goal):
                 #forming the path back to G
                 current = current_S
                 path_S = [current]
@@ -409,8 +409,14 @@ class Agent:
                 #path = [*path_S, *path_G]
                 print(path)
                 break
-                return path
+                return path"""
 
+            if (current_S in Q_goal):
+                print("current_S node in Q_goal: ")
+                print((current_S.row, current_S.column))
+            if (current_G in Q_start):
+                print("current_G node in Q_start")
+                print((current_G.row, current_G.column))
 
             #enqueueing children from the start direction
             children_S = [junct(row_S+1, column_S, current_S, None), junct(row_S-1, column_S, current_S, None), junct(row_S, column_S+1, current_S, None), junct(row_S, column_S-1, current_S, None)]
