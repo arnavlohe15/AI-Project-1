@@ -92,55 +92,55 @@ class Agent:
         return []
 
     def bfs__(self):
-        # to make extracting the value at a given location in the maze easier
-        # takes the maze and two integers as arguments
-        def get_value(maze, a, b):
-            return maze[a][b]
+          # to make extracting the value at a given location in the maze easier
+          # takes the maze and two integers as arguments
+          def get_value(maze, a, b):
+              return maze[a][b]
 
-        def is_out_of_bounds(a, b, d):
-            return (a < 0 or a >= dim) or (b < 0 or b >= d)
+          def is_out_of_bounds(a, b, d):
+              return (a < 0 or a >= dim) or (b < 0 or b >= d)
 
-        grid = self.grid
-        dim = len(grid)
-        Q = []
-        visited = []
-        start = point(0, 0, None)
-        goal = point(dim-1, dim-1, None)
-        Q.append(start)
-        visited.append(start)
+          grid = self.grid
+          dim = len(grid)
+          Q = []
+          visited = []
+          start = point(0, 0, None)
+          goal = point(dim-1, dim-1, None)
+          Q.append(start)
+          visited.append(start)
 
-        #boolean flag to keep track of whether the end node has been reached
-        path_reached = False
+          #boolean flag to keep track of whether the end node has been reached
+          path_reached = False
 
-        #beginning loop
-        while len(Q) > 0:
-            #---current location
-            current = Q[0]
-            #print(current.row, current.column, current.parent)
-            row = current.row
-            column = current.column
-            if len(Q) > 0:
-                Q.pop(0)
-            #---in case we get lucky
-            if (current == goal):
-                path = [current]
-                while current.parent is not None:
-                    path.append(current.parent)
-                    current = current.parent
-                path.reverse()
-                path = [(item.row, item.column) for item in path]
-                return path
-                print("Success")
-            #---Identifying all neighbors of current location
-            children = [point(row+1, column, current), point(row-1, column, current), point(row, column+1, current), point(row, column-1, current)]
-            for child in children:
-                if not is_out_of_bounds(child.row, child.column, dim):
-                    if child not in visited:
-                        if get_value(grid, child.row, child.column) == 0:
-                            Q.append(child)
-                            visited.append(child)
-        return []
-        print("No path")
+          #beginning loop
+          while len(Q) > 0:
+              #---current location
+              current = Q[0]
+              #print(current.row, current.column, current.parent)
+              row = current.row
+              column = current.column
+              if len(Q) > 0:
+                  Q.pop(0)
+              #---in case we get lucky
+              if (current == goal):
+                  path = [current]
+                  while current.parent is not None:
+                      path.append(current.parent)
+                      current = current.parent
+                  path.reverse()
+                  path = [(item.row, item.column) for item in path]
+                  return path
+                  print("Success")
+              #---Identifying all neighbors of current location
+              children = [point(row+1, column, current), point(row-1, column, current), point(row, column+1, current), point(row, column-1, current)]
+              for child in children:
+                  if not is_out_of_bounds(child.row, child.column, dim):
+                      if child not in visited:
+                          if get_value(grid, child.row, child.column) == 0:
+                              Q.append(child)
+                              visited.append(child)
+          return []
+          print("No path")
 
 
     ## HELPER CLASS / FUNCTIONS FOR A* ##
@@ -338,7 +338,7 @@ class Agent:
         return [(row+1, col), (row-1, col), (row, col+1), (row, col-1)]
 
     def trace_path(self, prev):
-        print('prev: ', prev)
+        #print('prev: ', prev)
         path = []
         parent = prev[self.goal_pos]
         path.append(parent)

@@ -49,32 +49,10 @@ def main():
 
     # Initializing agent and obtaining paths
     agent = Agent(grid)
-<<<<<<< HEAD
-
-    print("----------------------")
-    print("DFS")
-    print(agent.dfs())
-    print("----------------------")
-    print("BFS")
-    print(agent.bfs())
-    print("----------------------")
-    print("A Star Euclidean")
-    print(agent.a_star_euclidean())
-    print("----------------------")
-    print("A Star Manhattan")
-    print(agent.a_star_manhattan())
-    print("----------------------")
-
-    # -------- Main Program Loop -----------
-    #dfs_path = agent.dfs()
-    #bfs_path = agent.bfs()
-=======
     dfs_path = agent.dfs()
     bfs_path = agent.bfs__()
-    print(bfs_path)
->>>>>>> 00740a371441491ee6351ff20f0b2b57a71dcff8
-    #euclid_path = agent.a_star_euclidean())
-    #manhattan_path = agent.a_star_manhattan())
+    euclid_path = agent.a_star_euclidean()
+    manhattan_path = agent.a_star_manhattan()
 
     pygame.display.set_caption("Empty Maze")
     pygame.init()
@@ -151,15 +129,10 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
-    quit()
 
-<<<<<<< HEAD
     # -------- Displaying A* Euclidean Path -----------
-=======
-    """# -------- Displaying A* Euclidean Path -----------
     pygame.display.set_caption("A* Euclidean")
     done = False
->>>>>>> 00740a371441491ee6351ff20f0b2b57a71dcff8
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -182,7 +155,7 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
-    quit()
+
 
     # -------- Displaying A* Manhattan Path -----------
     pygame.display.set_caption("A* Manhattan")
@@ -211,7 +184,7 @@ def main():
         clock.tick(60)
     quit()
 
-    # -------- Displaying Bidirectional BFS Path -----------
+    """# -------- Displaying Bidirectional BFS Path -----------
     pygame.display.set_caption("Bidirectional BFS")
     done = False
     while not done:
@@ -233,7 +206,7 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
-    quit()
+    quit()"""
 
 #--------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
