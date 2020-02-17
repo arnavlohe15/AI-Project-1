@@ -215,15 +215,33 @@ def main():
         pygame.display.flip()
         clock.tick(60)
 
+    pygame.quit()
+
     # --- just an extra screen to make it easier to see bidirectional bfs
-    done = False
-    pygame.display.set_caption("All done")
+    pygame.display.set_caption("Bidirectional BFS")
     done = False
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 done = True
         screen.fill(BACKGROUND)
+        for row in range(dim):
+            for column in range(dim):
+                if grid[row][column] == 0:
+                    if (row, column) in bidirectional_path:
+                        color = PINK
+                    else:
+                        color = WHITE
+                else:
+                    color = BLACK
+                pygame.draw.rect(screen,
+                                 color,
+                                 [(MARGIN + WIDTH) * column + MARGIN,
+                                  (MARGIN + HEIGHT) * row + MARGIN,
+                                  WIDTH,
+                                  HEIGHT])
+        pygame.display.flip()
+        clock.tick(60)
 
 
 #--------------------------------------------------------------------------------------------------
