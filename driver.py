@@ -56,10 +56,24 @@ def main():
 
     # Initialize agent
     agent = Agent(grid)
+
+    print("----------------------")
     print("DFS")
-    agent.dfs()
+    print(agent.dfs())
+    print("----------------------")
     print("BFS")
-    agent.bfs()
+    print(agent.bfs())
+    print("----------------------")
+    print("A Star Euclidean")
+    print(agent.a_star_euclidean())
+    print("----------------------")
+    print("A Star Manhattan")
+    print(agent.a_star_manhattan())
+    print("----------------------")
+
+
+
+
 
     # -------- Main Program Loop -----------
     while not done:

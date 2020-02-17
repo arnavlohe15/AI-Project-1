@@ -35,8 +35,8 @@ class Agent:
             curr_pos = self.fringe.pop() # get current state
             if curr_pos == self.goal_pos:
                 print("Success!")
-                print("Current pos: ", curr_pos)
-                print("Path: ", self.closed)
+                #print("Current pos: ", curr_pos)
+                #print("Path: ", self.closed)
                 return self.closed
             else:
                 for child in self.get_children(curr_pos):
@@ -58,8 +58,8 @@ class Agent:
             curr_pos = self.fringe.pop(0)  # get current state
             if curr_pos == self.goal_pos:
                 print("Success!")
-                print("Current pos: ", curr_pos)
-                print("Path: ", self.closed)
+                #print("Current pos: ", curr_pos)
+                #print("Path: ", self.closed)
                 return self.closed
             else:
                 for child in self.get_children(curr_pos):
@@ -77,8 +77,6 @@ class Agent:
 
     ## HELPER CLASS / FUNCTIONS FOR A* ##
 
-
-
     # returns euclidean distance between two nodes
     # takes the locations/tuples of two nodes as arguments
     def euclidean_distance(self, node_1, node_2):
@@ -87,16 +85,16 @@ class Agent:
     # returns manhattan distance between two nodes
     # takes the locations/tuples of two nodes as arguments
     def manhattan_distance(self, node_1, node_2):
-        return abs(node_1.location[0] - node_2.location[0]) + \
-               abs(node_1.location[1] - node_2.location[1])
+        return abs(node_1[0] - node_2[0]) + \
+               abs(node_1[1] - node_2[1])
 
 
     # to make extracting the value at a given location in the maze easier
     # takes the maze and two integers as arguments
-    def get_value(maze, a, b):
+    def get_value(self, maze, a, b):
         return maze[a][b]
 
-    def out_of_bounds(a, b, dim):
+    def is_out_of_bounds(self, a, b, dim):
         return (a < 0 or a >= dim) or (b < 0 or b >= dim)
 
     # Euclidean A* Search, takes the maze and dimension as arguments
@@ -141,6 +139,7 @@ class Agent:
                     current = current.parent
                 # return path[::-1] #returning the path from start to end
                 path.reverse()
+                print("Success!")
                 return path
             else:
                 closed_list.append(currentNode)
@@ -156,7 +155,7 @@ class Agent:
                 child_row = int(child.location[0])
                 child_column = int(child.location[1])
 
-                if not out_of_bounds(child_row, child_column, dim):
+                if not self.is_out_of_bounds(child_row, child_column, dim):
 
                     # Child is on the closed list
                     if child in open_list:
@@ -164,7 +163,7 @@ class Agent:
 
                     # computing g(n), h(n), f(n)
                     child.g = float(currentNode.g + 1)
-                    child.h = float(euclidean_distance(child.location, end.location))
+                    child.h = float(self.euclidean_distance(child.location, end.location))
                     child.f = float(child.g + child.h)
 
                     # child is in open list
@@ -172,7 +171,7 @@ class Agent:
                         continue
 
                     # included the second condition, remove if A* doesn't work
-                    if get_value(maze, child_row, child_column) == 0 and child not in closed_list:
+                    if self.get_value(maze, child_row, child_column) == 0 and child not in closed_list:
                         open_list.append(child)
                     else:
                         continue
@@ -222,6 +221,7 @@ class Agent:
                     current = current.parent
                 # return path[::-1] #returning the path from start to end
                 path.reverse()
+                print("Success!")
                 return path
             else:
                 closed_list.append(currentNode)
@@ -237,7 +237,7 @@ class Agent:
                 child_row = int(child.location[0])
                 child_column = int(child.location[1])
 
-                if not out_of_bounds(child_row, child_column, dim):
+                if not self.is_out_of_bounds(child_row, child_column, dim):
 
                     # Child is on the closed list
                     if child in open_list:
@@ -245,7 +245,7 @@ class Agent:
 
                     # computing g(n), h(n), f(n)
                     child.g = float(currentNode.g + 1)
-                    child.h = float(manhattan_distance(child.location, end.location))
+                    child.h = float(self.manhattan_distance(child.location, end.location))
                     child.f = float(child.g + child.h)
 
                     # child is in open list
@@ -253,7 +253,7 @@ class Agent:
                         continue
 
                     # included the second condition, remove if A* doesn't work
-                    if get_value(maze, child_row, child_column) == 0 and child not in closed_list:
+                    if self.get_value(maze, child_row, child_column) == 0 and child not in closed_list:
                         open_list.append(child)
                     else:
                         continue
