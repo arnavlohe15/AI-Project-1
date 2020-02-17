@@ -53,7 +53,7 @@ def main():
             grid[row].append(np.random.binomial(1, 0.2, 1))  # Append a cell
         grid[0][0] = 0
 
-    #pygame.init()
+    pygame.init()
 
     # Initialize agent
     agent = Agent(grid)
@@ -63,7 +63,7 @@ def main():
     agent.bfs()
 
     # -------- Main Program Loop -----------
-    """while not done:
+    while not done:
         # --- Main event loop
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -103,21 +103,8 @@ def main():
         # --- Limit to 60 frames per second
         clock.tick(60)
 
-        for row in range(dim):
-            for column in range(dim):
-                for pos in agent.closed:
-                    if row == pos[0] and column == pos[1]:
-                        color = MAROON
-                    pygame.draw.rect(screen,
-                                     color,
-                                     [(MARGIN + WIDTH) * column + MARGIN,
-                                      (MARGIN + HEIGHT) * row + MARGIN,
-                                      WIDTH,
-                                      HEIGHT])
-                    pygame.display.update()
-
     # Close the window and quit.
-    quit()"""
+    quit()
 
 def show_dfs(agent, grid):
     # look at agent's closed states
