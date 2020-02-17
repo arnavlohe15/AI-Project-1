@@ -23,11 +23,11 @@ dim = int(input('Enter dimension: '))
 index_max = dim - 1
 
 # Setting the width and height of the screen [width, height]
-size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
-screen = pygame.display.set_mode(size)
+#size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
+#screen = pygame.display.set_mode(size)
 
 # Used to manage how fast the screen updates
-clock = pygame.time.Clock()
+#clock = pygame.time.Clock()
 
 def main():
     # Create a 2 dimensional array. A two dimensional
@@ -48,18 +48,19 @@ def main():
                 grid[row][column] = 0
         grid[0][0] = 0
 
-    pygame.display.set_caption("Empty Maze")
-    pygame.init()
+
 
     # Initializing agent and obtaining paths
     agent = Agent(grid)
-    dfs_path = agent.dfs()
-    bfs_path = agent.bfs()
+    #dfs_path = agent.dfs()
+    bfs_path = agent.bfs__()
+    print(bfs_path)
     #euclid_path = agent.a_star_euclidean())
     #manhattan_path = agent.a_star_manhattan())
 
-
-    # -------- Obtaining Blank Maze -----------
+    #pygame.display.set_caption("Empty Maze")
+    #pygame.init()
+    """# -------- Obtaining Blank Maze -----------
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -131,10 +132,11 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
-    quit()
+    quit()"""
 
     """# -------- Displaying A* Euclidean Path -----------
     pygame.display.set_caption("A* Euclidean")
+    done = False
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -161,6 +163,7 @@ def main():
 
     # -------- Displaying A* Manhattan Path -----------
     pygame.display.set_caption("A* Manhattan")
+    done = False
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -187,6 +190,7 @@ def main():
 
     # -------- Displaying Bidirectional BFS Path -----------
     pygame.display.set_caption("Bidirectional BFS")
+    done = False
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
