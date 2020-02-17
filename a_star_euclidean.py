@@ -9,6 +9,9 @@ class node():
         self.h = float(0)
         self.f = float(0)
 
+    def __eq__(self, other):
+        return self.location == other.location
+
 #returns euclidean distance between two nodes
 #takes the locations/tuples of two nodes as arguments
 #works properly
@@ -40,20 +43,19 @@ def a_star_euclidean(maze, dim):
         currentNode = open_list[0]
         currentNode_index = 0
 
-        #current location
+        #current location - finding node with lowest f(n)
         for index, item in enumerate(open_list):
             if item.f < currentNode.f:
                 currentNode = item
                 currentNode_index = index
 
         #(currentNode.location)
-
         row = currentNode.location[0]
         column = currentNode.location[1]
 
         #updating open list and closed list
         open_list.pop(currentNode_index)
-        #closed_list.append(currentNode)
+        closed_list.append(currentNode)
 
         #in case goal node is already reached
         if currentNode.location == end.location:
@@ -68,7 +70,7 @@ def a_star_euclidean(maze, dim):
         else:
             closed_list.append(currentNode)
 
-        #generating childs
+        #generating children
         child_locations = [(row+1, column), (row-1, column), (row, column+1), (row, column-1)]
         #print(child_locations)
         child_nodes = [node(currentNode, location) for location in child_locations]
@@ -94,7 +96,8 @@ def a_star_euclidean(maze, dim):
                 if child in closed_list:
                     continue
 
-                if get_value(maze, child_row, child_column) == 0:
+                #included the second condition, remove if A* doesn't work
+                if get_value(maze, child_row, child_column) == 0 and child not in closed_list:
                     open_list.append(child)
                 else:
                     continue
@@ -102,6 +105,8 @@ def a_star_euclidean(maze, dim):
             else:
                 continue
 
+        #if (len(open_list) > dim**4): #b^d worst case
+            #return None
 
 def main():
     maze = []
