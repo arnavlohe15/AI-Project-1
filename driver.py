@@ -11,7 +11,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BACKGROUND = (79, 159, 159)
 RED = (255, 0, 0)
-MAROON = (142,0,144)
+PINK = (243,202,244)
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 40
 HEIGHT = 40
@@ -20,6 +20,7 @@ MARGIN = 5
 
 # Getting dimension input
 dim = int(input('Enter dimension: '))
+index_max = dim - 1
 
 # Setting the width and height of the screen [width, height]
 size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
@@ -33,7 +34,6 @@ def main():
     # array is simply a list of lists.
     grid = []
 
-    pygame.display.set_caption("Maze Runner")
 
     # Looping until the user clicks the close button.
     done = False
@@ -44,8 +44,11 @@ def main():
         grid.append([])
         for column in range(dim):
             grid[row].append(np.random.binomial(1, 0.2, 1))  # Append a cell
+            if (row == column == dim - 1):
+                grid[row][column] = 0
         grid[0][0] = 0
 
+    pygame.display.set_caption("Empty Maze")
     pygame.init()
 
     # Initializing agent and obtaining paths
@@ -78,6 +81,7 @@ def main():
         clock.tick(60)
 
     # -------- Displaying DFS Path -----------
+    pygame.display.set_caption("DFS")
     done = False
     while not done:
         for e in pygame.event.get():
@@ -88,7 +92,7 @@ def main():
             for column in range(dim):
                 if grid[row][column] == 0:
                     if (row, column) in dfs_path:
-                        color = MAROON
+                        color = PINK
                     else:
                         color = WHITE
                 else:
@@ -103,6 +107,7 @@ def main():
         clock.tick(60)
 
     # -------- Displaying BFS Path -----------
+    pygame.display.set_caption("BFS")
     done = False
     while not done:
         for e in pygame.event.get():
@@ -113,7 +118,7 @@ def main():
             for column in range(dim):
                 if grid[row][column] == 0:
                     if (row, column) in bfs_path:
-                        color = MAROON
+                        color = PINK
                     else:
                         color = WHITE
                 else:
@@ -129,6 +134,7 @@ def main():
     quit()
 
     """# -------- Displaying A* Euclidean Path -----------
+    pygame.display.set_caption("A* Euclidean")
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -138,7 +144,7 @@ def main():
             for column in range(dim):
                 if grid[row][column] == 0:
                     if (row, column) in euclid_path:
-                        color = MAROON
+                        color = PINK
                     else:
                         color = WHITE
                 else:
@@ -154,6 +160,7 @@ def main():
     quit()
 
     # -------- Displaying A* Manhattan Path -----------
+    pygame.display.set_caption("A* Manhattan")
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -163,7 +170,7 @@ def main():
             for column in range(dim):
                 if grid[row][column] == 0:
                     if (row, column) in manhattan_path:
-                        color = MAROON
+                        color = PINK
                     else:
                         color = WHITE
                 else:
@@ -179,6 +186,7 @@ def main():
     quit()
 
     # -------- Displaying Bidirectional BFS Path -----------
+    pygame.display.set_caption("Bidirectional BFS")
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
