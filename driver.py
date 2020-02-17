@@ -22,9 +22,9 @@ MARGIN = 5
 dim = int(input('Enter dimension: '))
 index_max = dim - 1
 
-size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
-screen = pygame.display.set_mode(size)
-clock = pygame.time.Clock()
+#size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
+#screen = pygame.display.set_mode(size)
+#clock = pygame.time.Clock()
 
 def main():
     # Create a 2 dimensional array. A two dimensional
@@ -40,21 +40,26 @@ def main():
         # in this row
         grid.append([])
         for column in range(dim):
-            grid[row].append(np.random.binomial(1, 0.2, 1))  # Append a cell
+            grid[row].append(int(np.random.binomial(1, 0.2, 1)))  # Append a cell
             if (row == column == dim - 1):
                 grid[row][column] = 0
         grid[0][0] = 0
 
+        #print(grid)
 
 
     # Initializing agent and obtaining paths
     agent = Agent(grid)
-    dfs_path = agent.dfs()
+    """dfs_path = agent.dfs()
     bfs_path = agent.bfs__()
     euclid_path = agent.a_star_euclidean()
-    manhattan_path = agent.a_star_manhattan()
+    manhattan_path = agent.a_star_manhattan()"""
+    bfs_path = agent.bfs__()
+    if bfs_path is not None:
+        bidirectional_path = agent.bidirectional_bfs()
+        print(bidirectional_path)
 
-    pygame.display.set_caption("Empty Maze")
+    """pygame.display.set_caption("Empty Maze")
     pygame.init()
     # -------- Obtaining Blank Maze -----------
     done = False
@@ -182,9 +187,9 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
-    quit()
 
-    """# -------- Displaying Bidirectional BFS Path -----------
+
+    # -------- Displaying Bidirectional BFS Path -----------
     pygame.display.set_caption("Bidirectional BFS")
     done = False
     while not done:
@@ -195,7 +200,10 @@ def main():
         for row in range(dim):
             for column in range(dim):
                 if grid[row][column] == 0:
-                    color = WHITE
+                    if (row, column) in bidirectional_path:
+                        color = PINK
+                    else:
+                        color = WHITE
                 else:
                     color = BLACK
                 pygame.draw.rect(screen,
