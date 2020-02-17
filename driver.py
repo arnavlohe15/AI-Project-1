@@ -25,8 +25,7 @@ HEIGHT = 40
 MARGIN = 5
 
 # Get dimension input
-#dim = int(input('Enter dimension: '))
-dim = 5
+dim = int(input('Enter dimension: '))
 
 # Set the width and height of the screen [width, height]
 size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
