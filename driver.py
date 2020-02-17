@@ -22,9 +22,9 @@ MARGIN = 5
 dim = int(input('Enter dimension: '))
 index_max = dim - 1
 
-#size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
-#screen = pygame.display.set_mode(size)
-#clock = pygame.time.Clock()
+size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
+screen = pygame.display.set_mode(size)
+clock = pygame.time.Clock()
 
 def main():
     # Create a 2 dimensional array. A two dimensional
@@ -50,16 +50,16 @@ def main():
 
     # Initializing agent and obtaining paths
     agent = Agent(grid)
-    """dfs_path = agent.dfs()
+    dfs_path = agent.dfs()
     bfs_path = agent.bfs__()
     euclid_path = agent.a_star_euclidean()
-    manhattan_path = agent.a_star_manhattan()"""
+    manhattan_path = agent.a_star_manhattan()
     bfs_path = agent.bfs__()
     if bfs_path is not None:
         bidirectional_path = agent.bidirectional_bfs()
-        print(bidirectional_path)
+        #print(bidirectional_path)
 
-    """pygame.display.set_caption("Empty Maze")
+    pygame.display.set_caption("Empty Maze")
     pygame.init()
     # -------- Obtaining Blank Maze -----------
     done = False
@@ -214,7 +214,17 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
-    quit()"""
+
+    # --- just an extra screen to make it easier to see bidirectional bfs
+    done = False
+    pygame.display.set_caption("All done")
+    done = False
+    while not done:
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                done = True
+        screen.fill(BACKGROUND)
+
 
 #--------------------------------------------------------------------------------------------------
 if __name__ == '__main__':

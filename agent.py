@@ -349,7 +349,7 @@ class Agent:
         def is_out_of_bounds(a, b, d):
             return (a < 0 or a >= dim) or (b < 0 or b >= d)
 
-        def traceback(junct):
+        def traceback_start_(junct):
             current = junct
             if current.parent_S is not None:
                 path_S = [current]
@@ -358,9 +358,12 @@ class Agent:
                     current = current.parent_S
                 path_S = [(item.row, item.column) for item in path_S]
                 return path_S
+
+        def traceback_goal_(junct):
+            current = junct
             if current.parent_G is not None:
                 path_G = [current]
-                while current.parent_S is not None:
+                while current.parent_G is not None:
                     path_G.append(current.parent_G)
                     current = current.parent_G
                 path_G = [(item.row, item.column) for item in path_G]
@@ -377,7 +380,7 @@ class Agent:
             for item in queue_1:
                 for node in queue_2:
                     if item == node:
-                        return item
+                        return [item, node]
         #-----------------------------------------------------------------------
 
         #-----------------------------------------------------------------------
@@ -415,12 +418,17 @@ class Agent:
                 #obtaining location for goal iterator
                 row_G = current_G.row
                 column_G = current_G.column
+                #print((current_G.row, current_G.column, current_G.parent_S, current_G.parent_G))
                 #print("From goal direction: ", (row_G, column_G))
                 #popping off the queues
-                if len(Q_start) > 0:
-                    Q_start.pop(0)
-                if len(Q_goal) > 0:
-                    Q_goal.pop(0)
+                if (len(Q_goal) > 0):
+                    if (len(Q_start) > 0):
+                        Q_start.pop(0)
+                        Q_goal.pop(0)
+                    else:
+                        Q_goal.pop(0)
+                #if len(Q_goal) > 0:
+                    #Q_goal.pop(0)
                 #enqueueing children from the start direction
                 children_S = [junct(row_S+1, column_S, current_S, None), junct(row_S-1, column_S, current_S, None), junct(row_S, column_S+1, current_S, None), junct(row_S, column_S-1, current_S, None)]
                 for child in children_S:
@@ -435,13 +443,32 @@ class Agent:
                     if not is_out_of_bounds(child.row, child.column, dim):
                         if (child.row, child.column) not in visited_goal:
                             if get_value(grid, child.row, child.column) == 0:
+                                #print((child.row, child.column, child.parent_S, child.parent_G))
                                 Q_goal.append(child)
                                 visited_goal.append((child.row, child.column))
 
             #once we have an intersection, return the traceback paths
             else:
-                path = traceback(intersecting_node(Q_start, Q_goal))
-                return path
+                intersection_S = intersecting_node(Q_start, Q_goal)[0]
+                intersection_G = intersecting_node(Q_start, Q_goal)[1]
+                print((intersection_S.row, intersection_S.column, intersection_S.parent_S, intersection_S.parent_G))
+                print((intersection_G.row, intersection_G.column, intersection_G.parent_S, intersection_G.parent_G))
+                #print("Intersecting Node: ")
+                #print((intersection.row, intersection.column, intersection.parent_G, intersection.parent_G))
+                #print("Path: ")
+                path_to_start = traceback_start_(intersection_S)
+                path_to_goal = traceback_goal_(intersection_G)
+                #path = traceback_start_(intersection_S).extend(traceback_goal_(intersection_G))
+                #return path]
+                if (path_to_goal is not None) and (path_to_start is not None):
+                    path_to_start.reverse()
+                    path = path_to_start + path_to_goal
+                    #print(path)
+                    return path
+                    break
+                else:
+                    return []
+                    break
         #-----------------------------------------------------------------------
 
 
