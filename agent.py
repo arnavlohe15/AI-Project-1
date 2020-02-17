@@ -342,6 +342,7 @@ class Agent:
     def bidirectional_bfs(self):
 
         #helper functions that I'm too lazy to define using proper OOP
+        #-----------------------------------------------------------------------
         def get_value(maze, a, b):
             return maze[a][b]
 
@@ -377,7 +378,9 @@ class Agent:
                 for node in queue_2:
                     if item == node:
                         return item
+        #-----------------------------------------------------------------------
 
+        #-----------------------------------------------------------------------
         #declaring grid, dim
         grid = self.grid
         dim = len(grid)
@@ -395,8 +398,9 @@ class Agent:
         Q_goal.append(goal)
         visited_start.append((start.row, start.column))
         visited_goal.append((goal.row, goal.column))
+        #-----------------------------------------------------------------------
 
-
+        #-----------------------------------------------------------------------
         #outer loop for when both queues are not empty
         while (len(Q_start) > 0) and (len(Q_goal) > 0):
             # ---- Updating nodes and doing the usual enqueueing/dequeueing
@@ -438,8 +442,8 @@ class Agent:
             else:
                 path = traceback(intersecting_node(Q_start, Q_goal))
                 return path
+        #-----------------------------------------------------------------------
 
-        #print("No path")
 
     def get_children(self, curr_pos):
         row = curr_pos[0] # access row of tuple
