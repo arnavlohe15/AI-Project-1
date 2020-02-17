@@ -340,10 +340,29 @@ class Agent:
                     continue
 
     def bidirectional_bfs(self):
+
         def get_value(maze, a, b):
             return maze[a][b]
+
         def is_out_of_bounds(a, b, d):
             return (a < 0 or a >= dim) or (b < 0 or b >= d)
+
+        def traceback(junct):
+            current = junct
+            if current.parent_S is not None:
+                path_S = [current]
+                while current.parent_S is not None:
+                    path_S.append(current.parent_S)
+                    current = current.parent_S
+                path_S = [(item.row, item.column) for item in path_S]
+                return path_S
+            if current.parent_G is not None:
+                path_G = [current]
+                while current.parent_S is not None:
+                    path_G.append(current.parent_G)
+                    current = current.parent_G
+                path_G = [(item.row, item.column) for item in path_G]
+                return path_G
 
         grid = self.grid
         dim = len(grid)
@@ -412,11 +431,13 @@ class Agent:
                 return path"""
 
             if (current_S in Q_goal):
-                print("current_S node in Q_goal: ")
-                print((current_S.row, current_S.column))
+                #print("current_S node in Q_goal: ")
+                #print((current_S.row, current_S.column))
+                print(traceback(current_S))
             if (current_G in Q_start):
-                print("current_G node in Q_start: ")
-                print((current_G.row, current_G.column))
+                print(traceback(current_G))
+                #print("current_G node in Q_start: ")
+                #print((current_G.row, current_G.column))
 
             #enqueueing children from the start direction
             children_S = [junct(row_S+1, column_S, current_S, None), junct(row_S-1, column_S, current_S, None), junct(row_S, column_S+1, current_S, None), junct(row_S, column_S-1, current_S, None)]
