@@ -71,10 +71,6 @@ def main():
     print(agent.a_star_manhattan())
     print("----------------------")
 
-
-
-
-
     # -------- Main Program Loop -----------
     while not done:
         # --- Main event loop
