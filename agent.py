@@ -415,7 +415,7 @@ class Agent:
                 print("current_S node in Q_goal: ")
                 print((current_S.row, current_S.column))
             if (current_G in Q_start):
-                print("current_G node in Q_start")
+                print("current_G node in Q_start: ")
                 print((current_G.row, current_G.column))
 
             #enqueueing children from the start direction
