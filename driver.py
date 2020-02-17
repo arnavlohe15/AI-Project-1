@@ -57,7 +57,7 @@ def main():
     bfs_path = agent.bfs__()
     if bfs_path is not None:
         bidirectional_path = agent.bidirectional_bfs()
-        #print(bidirectional_path)
+        print(bidirectional_path)
 
     pygame.display.set_caption("Empty Maze")
     pygame.init()
@@ -215,9 +215,7 @@ def main():
         pygame.display.flip()
         clock.tick(60)
 
-    pygame.quit()
-
-    # --- just an extra screen to make it easier to see bidirectional bfs
+    # -------- Displaying Bidirectional BFS Path -----------
     pygame.display.set_caption("Bidirectional BFS")
     done = False
     while not done:
@@ -242,6 +240,8 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
+
+    pygame.quit()
 
 
 #--------------------------------------------------------------------------------------------------

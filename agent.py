@@ -451,19 +451,13 @@ class Agent:
             else:
                 intersection_S = intersecting_node(Q_start, Q_goal)[0]
                 intersection_G = intersecting_node(Q_start, Q_goal)[1]
-                print((intersection_S.row, intersection_S.column, intersection_S.parent_S, intersection_S.parent_G))
-                print((intersection_G.row, intersection_G.column, intersection_G.parent_S, intersection_G.parent_G))
-                #print("Intersecting Node: ")
-                #print((intersection.row, intersection.column, intersection.parent_G, intersection.parent_G))
-                #print("Path: ")
+                #print((intersection_S.row, intersection_S.column, intersection_S.parent_S, intersection_S.parent_G))
+                #print((intersection_G.row, intersection_G.column, intersection_G.parent_S, intersection_G.parent_G))
                 path_to_start = traceback_start_(intersection_S)
                 path_to_goal = traceback_goal_(intersection_G)
-                #path = traceback_start_(intersection_S).extend(traceback_goal_(intersection_G))
-                #return path]
                 if (path_to_goal is not None) and (path_to_start is not None):
                     path_to_start.reverse()
                     path = path_to_start + path_to_goal
-                    #print(path)
                     return path
                     break
                 else:
