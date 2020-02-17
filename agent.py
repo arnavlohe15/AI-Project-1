@@ -117,7 +117,7 @@ class Agent:
                 Q.pop(0)
             #---in case we get lucky
             if (current == goal):
-                path = []
+                path = [current]
                 while current.parent is not None:
                     path.append(current.parent)
                     current = current.parent

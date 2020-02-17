@@ -22,12 +22,9 @@ MARGIN = 5
 dim = int(input('Enter dimension: '))
 index_max = dim - 1
 
-# Setting the width and height of the screen [width, height]
-#size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
-#screen = pygame.display.set_mode(size)
-
-# Used to manage how fast the screen updates
-#clock = pygame.time.Clock()
+size = ((MARGIN + WIDTH) * dim + MARGIN, (MARGIN + WIDTH) * dim + MARGIN)
+screen = pygame.display.set_mode(size)
+clock = pygame.time.Clock()
 
 def main():
     # Create a 2 dimensional array. A two dimensional
@@ -52,15 +49,16 @@ def main():
 
     # Initializing agent and obtaining paths
     agent = Agent(grid)
-    #dfs_path = agent.dfs()
+    dfs_path = agent.dfs()
     bfs_path = agent.bfs__()
     print(bfs_path)
     #euclid_path = agent.a_star_euclidean())
     #manhattan_path = agent.a_star_manhattan())
 
-    #pygame.display.set_caption("Empty Maze")
-    #pygame.init()
-    """# -------- Obtaining Blank Maze -----------
+    pygame.display.set_caption("Empty Maze")
+    pygame.init()
+    # -------- Obtaining Blank Maze -----------
+    done = False
     while not done:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -132,7 +130,7 @@ def main():
                                   HEIGHT])
         pygame.display.flip()
         clock.tick(60)
-    quit()"""
+    quit()
 
     """# -------- Displaying A* Euclidean Path -----------
     pygame.display.set_caption("A* Euclidean")
