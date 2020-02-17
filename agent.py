@@ -365,22 +365,31 @@ class Agent:
                 path_G = [(item.row, item.column) for item in path_G]
                 return path_G
 
+        #boolean flag for whether both search queues have intersected
+        def exists_intersection(queue_1, queue_2):
+            for item in queue_1:
+                for node in queue_2:
+                    return (item == node)
+
+        #returns the intersection itself
+        def intersecting_node(queue_1, queue_2):
+            for item in queue_1:
+                for node in queue_2:
+                    if item == node:
+                        return item
+
         #declaring grid, dim
         grid = self.grid
         dim = len(grid)
-
         #queue from the start node and queue from the end node
         Q_start = []
         Q_goal = []
-
         #visited lists for both start and end
         visited_start = []
         visited_goal = []
-
         #initializing start node and end node
         start = junct(0, 0, None, None)
         goal = junct(dim-1, dim-1, None, None)
-
         #adding start and end nodes to their respective queues and closed sets
         Q_start.append(start)
         Q_goal.append(goal)
@@ -388,91 +397,49 @@ class Agent:
         visited_goal.append((goal.row, goal.column))
 
 
-        #beginning loop
+        #outer loop for when both queues are not empty
         while (len(Q_start) > 0) and (len(Q_goal) > 0):
+            # ---- Updating nodes and doing the usual enqueueing/dequeueing
+            # --- while there isn't an intersection, do the usual traversal
+            if not exists_intersection(Q_start, Q_goal):
+                #initializing "current" iterators for both queues
+                current_S = Q_start[0]
+                current_G = Q_goal[0]
+                #obtaining location for start iterator
+                row_S = current_S.row
+                column_S = current_S.column
+                #obtaining location for goal iterator
+                row_G = current_G.row
+                column_G = current_G.column
+                #print("From goal direction: ", (row_G, column_G))
+                #popping off the queues
+                if len(Q_start) > 0:
+                    Q_start.pop(0)
+                if len(Q_goal) > 0:
+                    Q_goal.pop(0)
+                #enqueueing children from the start direction
+                children_S = [junct(row_S+1, column_S, current_S, None), junct(row_S-1, column_S, current_S, None), junct(row_S, column_S+1, current_S, None), junct(row_S, column_S-1, current_S, None)]
+                for child in children_S:
+                    if not is_out_of_bounds(child.row, child.column, dim):
+                        if (child.row, child.column) not in visited_start:
+                            if get_value(grid, child.row, child.column) == 0:
+                                Q_start.append(child)
+                                visited_start.append((child.row, child.column))
+                #enqueueing childen from the goal direction
+                children_G = [junct(row_G+1, column_G, None, current_G), junct(row_G-1, column_G, None, current_G), junct(row_G, column_G+1, None, current_G), junct(row_G, column_G-1, None, current_G)]
+                for child in children_G:
+                    if not is_out_of_bounds(child.row, child.column, dim):
+                        if (child.row, child.column) not in visited_goal:
+                            if get_value(grid, child.row, child.column) == 0:
+                                Q_goal.append(child)
+                                visited_goal.append((child.row, child.column))
 
-            #initializing "current" iterators for both queues
-            current_S = Q_start[0]
-            current_G = Q_goal[0]
+            #once we have an intersection, return the traceback paths
+            else:
+                path = traceback(intersecting_node(Q_start, Q_goal))
+                return path
 
-            #obtaining location for start iterator
-            row_S = current_S.row
-            column_S = current_S.column            #print("From start direction: ", (row_S, column_S))
-
-            #obtaining location for goal iterator
-            row_G = current_G.row
-            column_G = current_G.column
-
-            #print("From goal direction: ", (row_G, column_G))
-
-            #popping off the queues
-            if len(Q_start) > 0:
-                Q_start.pop(0)
-            if len(Q_goal) > 0:
-                Q_goal.pop(0)
-
-            #in case the current node from starting is in the goal Queue
-            """if (current_S in Q_goal):
-                #forming the path back to G
-                current = current_S
-                path_S = [current]
-                while current.parent_S is not None:
-                    path_S.append(current.parent_S)
-                    current = current.parent_S
-                path_S = [(item.row, item.column) for item in path_S]
-                #print(path_S)
-
-            #in case the current node from goal is in the start Queue
-            if (current_G in Q_start):
-                #forming the path back to S
-                current = current_G
-                path_G = [current]
-                while current.parent_S is not None:
-                    path_G.append(current.parent_G)
-                    current = current.parent_G
-                path_G = [(item.row, item.column) for item in path_G]
-                print(path_G)
-
-            #path_G only seems to have one element
-            if (current_S in Q_goal) and (current_G in Q_start):
-                path = path_S + path_G
-                #path = [*path_S, *path_G]
-                print(path)
-                break
-                return path"""
-
-            #this is supposed to be the part where we obtain the tracebacks from the intersection to both start and end child_nodes
-            #want to ultimately concatenate both those lists and get the final path from both halves
-            if (current_S in Q_goal):
-                #print("current_S node in Q_goal: ")
-                #print((current_S.row, current_S.column))
-                print(traceback(current_S))
-            if (current_G in Q_start):
-                print(traceback(current_G))
-                #print("current_G node in Q_start: ")
-                #print((current_G.row, current_G.column))
-
-            #enqueueing children from the start direction
-            children_S = [junct(row_S+1, column_S, current_S, None), junct(row_S-1, column_S, current_S, None), junct(row_S, column_S+1, current_S, None), junct(row_S, column_S-1, current_S, None)]
-            for child in children_S:
-                if not is_out_of_bounds(child.row, child.column, dim):
-                    if (child.row, child.column) not in visited_start:
-                        if get_value(grid, child.row, child.column) == 0:
-                            Q_start.append(child)
-                            visited_start.append((child.row, child.column))
-
-            #enqueueing childen from the goal direction
-            #enqueueing children from the start direction
-            children_G = [junct(row_G+1, column_G, None, current_G), junct(row_G-1, column_G, None, current_G), junct(row_G, column_G+1, None, current_G), junct(row_G, column_G-1, None, current_G)]
-            for child in children_G:
-                if not is_out_of_bounds(child.row, child.column, dim):
-                    if (child.row, child.column) not in visited_goal:
-                        if get_value(grid, child.row, child.column) == 0:
-                            Q_goal.append(child)
-                            visited_goal.append((child.row, child.column))
-
-        return []
-        print("No path")
+        #print("No path")
 
     def get_children(self, curr_pos):
         row = curr_pos[0] # access row of tuple
