@@ -341,6 +341,7 @@ class Agent:
 
     def bidirectional_bfs(self):
 
+        #helper functions that I'm too lazy to define using proper OOP
         def get_value(maze, a, b):
             return maze[a][b]
 
@@ -364,14 +365,23 @@ class Agent:
                 path_G = [(item.row, item.column) for item in path_G]
                 return path_G
 
+        #declaring grid, dim
         grid = self.grid
         dim = len(grid)
+
+        #queue from the start node and queue from the end node
         Q_start = []
         Q_goal = []
+
+        #visited lists for both start and end
         visited_start = []
         visited_goal = []
+
+        #initializing start node and end node
         start = junct(0, 0, None, None)
         goal = junct(dim-1, dim-1, None, None)
+
+        #adding start and end nodes to their respective queues and closed sets
         Q_start.append(start)
         Q_goal.append(goal)
         visited_start.append((start.row, start.column))
@@ -380,21 +390,22 @@ class Agent:
 
         #beginning loop
         while (len(Q_start) > 0) and (len(Q_goal) > 0):
-            #initializations
+
+            #initializing "current" iterators for both queues
             current_S = Q_start[0]
             current_G = Q_goal[0]
 
+            #obtaining location for start iterator
             row_S = current_S.row
-            column_S = current_S.column
+            column_S = current_S.column            #print("From start direction: ", (row_S, column_S))
 
-            #print("From start direction: ", (row_S, column_S))
-
+            #obtaining location for goal iterator
             row_G = current_G.row
             column_G = current_G.column
 
             #print("From goal direction: ", (row_G, column_G))
 
-            #some mechanics
+            #popping off the queues
             if len(Q_start) > 0:
                 Q_start.pop(0)
             if len(Q_goal) > 0:
@@ -430,6 +441,8 @@ class Agent:
                 break
                 return path"""
 
+            #this is supposed to be the part where we obtain the tracebacks from the intersection to both start and end child_nodes
+            #want to ultimately concatenate both those lists and get the final path from both halves
             if (current_S in Q_goal):
                 #print("current_S node in Q_goal: ")
                 #print((current_S.row, current_S.column))
