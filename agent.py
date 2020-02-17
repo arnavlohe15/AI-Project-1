@@ -31,13 +31,15 @@ class Agent:
 
     def dfs(self):
         # fringe is stack
+        prev = {}
+        prev[self.init_pos] = None
         while len(self.fringe) != 0: # while fringe is not empty
             curr_pos = self.fringe.pop() # get current state
             if curr_pos == self.goal_pos:
                 print("Success!")
                 #print("Current pos: ", curr_pos)
                 #print("Path: ", self.closed)
-                return self.closed
+                return self.trace_path(prev)
             else:
                 for child in self.get_children(curr_pos):
                     out_of_bounds = child[0] < 0 or \
@@ -48,19 +50,22 @@ class Agent:
                         invalid = self.grid[child[0]][child[1]] == 1
                         if not invalid and child not in self.closed:
                             self.fringe.append(child)
+                            prev[child] = curr_pos
                 self.closed.append(curr_pos)
         print("No solution")
         return []
 
     def bfs(self):
         # fringe is stack
+        prev = {}
+        prev[self.init_pos] = None
         while len(self.fringe) != 0:  # while fringe is not empty
             curr_pos = self.fringe.pop(0)  # get current state
             if curr_pos == self.goal_pos:
                 print("Success!")
                 #print("Current pos: ", curr_pos)
                 #print("Path: ", self.closed)
-                return self.closed
+                return self.trace_path(prev)
             else:
                 for child in self.get_children(curr_pos):
                     out_of_bounds = child[0] < 0 or \
@@ -71,6 +76,7 @@ class Agent:
                         invalid = self.grid[child[0]][child[1]] == 1
                         if not invalid and child not in self.closed:
                             self.fringe.append(child)
+                            prev[child] = curr_pos
                 self.closed.append(curr_pos)
         print("No solution")
         return []
@@ -269,4 +275,17 @@ class Agent:
         col = curr_pos[1] # access col of tuple
         return [(row+1, col), (row-1, col), (row, col+1), (row, col-1)]
 
+    def trace_path(self, prev):
+        print('prev: ', prev)
+        path = []
+        parent = prev[self.goal_pos]
+        path.append(parent)
 
+        while parent is not None:
+            parent = prev[parent]
+            path.append(parent)
+
+        return path
+
+if __name__ == '__main__':
+    main()
